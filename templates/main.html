@@ -1,0 +1,40 @@
+<html>
+<head>
+    <link rel="stylesheet" href="/static/main.css">
+    <title>Beat</title>
+</head>
+<body>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<div class="wrapper">
+<div class="data">
+    <h1></h1>
+    <form class="f" action="{{ url_for('beat') }}">
+        <h3>
+             {{ date_form.business_units(value=selected) }}
+
+            {{date_form.from_date.label}}
+            {{ date_form.from_date(class='datepicker') }}
+
+            {{date_form.to_date.label}}
+            {{ date_form.to_date(class='datepicker') }}
+
+            {{ date_form.hidden_tag() }}
+            <input class="myButton" type="submit" value="search"/>
+        </h3>
+    </form>
+    {% for key, value in result.items() %}
+    <ul><li><h3>{{key}}: {{value}}</h3></li></ul>
+    {% endfor %}
+</div>
+    <div class="left-nav">
+        <h2>{{form.business_units.label}}</h2>
+        <ul>
+            {% for key, value, checked in form.business_units.iter_choices() %}
+            <li class="{% if selected==value|string %}active{%endif%}"><a href="?business_units={{ value }}"><h4>{{ value }}</h4></a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,156 @@
+h2 {
+    color: aquamarine;
+    font-variant-caps: all-small-caps;
+    font-size: 25px;
+    align-items: center;
+    text-align: -webkit-center;
+
+}
+
+h1 {
+    color: aquamarine;
+    font-variant-caps: all-small-caps;
+    font-size: 50px;
+    text-align: center;
+}
+
+h1:after {
+    content:'BEAT';
+    display: contents;
+    border:4px solid #251f1f;
+    border-radius:3px;
+    -webkit-border-radius:4px;
+    -moz-border-radius:4px;
+    box-shadow:inset 0 1px 1px rgba(0, 0, 800, .05);
+    -webkit-box-shadow:inset 0 1px 1px rgba(0, 0, 800, .05);
+    -moz-box-shadow:inset 0 1px 1px rgba(0, 0, 800, .05);
+}
+
+h3 {
+    color: aquamarine;
+    font-variant-caps: all-small-caps;
+    font-size: 22px;
+    text-align: center;
+}
+
+/*li {
+  color: aquamarine;
+  font-size: 20px;
+}*/
+
+/*body {
+    background: rgba(218, 253, 223, 1);
+}
+
+form {
+background: rgba(218, 253, 223, 1);
+border-radius:28px;
+}*/
+
+.myButton {
+	background:aquamarine;
+	border-radius:28px;
+	border:1px solid #18ab29;
+	display:inline-block;
+	cursor:pointer;
+	color:black;
+	font-family:Arial;
+	font-size:14px;
+	padding:3px 15px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #2f6627;
+	align:center;
+}
+.myButton:hover {
+	background-color:#5cbf2a;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
+
+html {
+  background: url(/static/background.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.wrapper{
+display: flex;
+position: relative;
+}
+
+.wrapper .left-nav {
+position: fixed;
+width: 200px;
+height: 100%;
+background: border-box;
+padding: 55px 0;
+}
+
+.wrapper .data {
+position: center;
+width: -webkit-fill-available;
+height: 100%;
+padding: 30px 0;
+}
+
+.wrapper .left-nav ul{
+list-style-type: none;
+text-decoration:none;
+}
+
+.wrapper .left-nav ul li{
+padding: 15px;
+border-bottom: 1px solid rgba(0,0,0,0.05);
+border-top: 1px solid rgba(225,225,225,0.05);
+text-decoration:none;
+}
+
+.wrapper .left-nav ul li a{
+color:aquamarine;
+display:block;
+text-decoration:none;
+}
+
+.wrapper .left-nav ul li:hover{
+background:darkslategrey;
+border-radius: 30px;
+}
+
+.wrapper .left-nav ul li.active{
+background:darkslategrey;
+	border-radius:30px;
+	border:1px solid #18ab29;
+	display:inline-block;
+	cursor:pointer;
+	color:black;
+	font-family:Arial;
+	font-size:14px;
+	padding:1px 50px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #2f6627;
+	align:center;
+}
+
+/*.beat{
+height: 200px;
+width: 500%;
+display: block;
+background-image: url(/static/beat.png);
+position: absolute;
+bottom: 0;
+left: 0;
+right: 0;
+z-index: 1;
+background-repeat: repeat-x;
+animation: beat 5s linear infinite;
+}
+
+@keyframes beat{
+100% {
+transform: translateX(-3400px);
+}
+}*/
