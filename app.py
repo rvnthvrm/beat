@@ -48,7 +48,7 @@ def get_records():
     ]
 
     rows = read_table(
-        open_sheet("/cygdrive/c/Users/HP/Documents/Master-Tracker.xlsx", "Schedule Tracker"),
+        open_sheet("/cygdrive/c/Users/Master-Tracker.xlsx", "Schedule Tracker"),
         coloumns,
         0
     )
