@@ -1,10 +1,10 @@
-from flask import Flask
+from dateutil.parser import parse
+from flask import Flask, render_template
+
 import xlrd
-from flask import render_template
 from flask_wtf import FlaskForm
-from wtforms import SelectField, HiddenField
+from wtforms import HiddenField, SelectField
 from wtforms.fields.html5 import DateField
-from wtforms.validators import ValidationError
 
 
 app = Flask(__name__)
@@ -84,19 +84,25 @@ def beat():
 
     def get_final_records(total_records):
         return {
-        'Total Submission': len(total_records),
-        'Level 1': len([i for i in total_records if i['L1/L2/Final'] == 'L1']),
-        'Level 2': len([i for i in total_records if i['L1/L2/Final'] == 'L2']),
-        'Level 3/Final Stage': len([i for i in total_records if i['L1/L2/Final'] == 'L3']),
-        'Level 4/Offered': len([i for i in total_records if i['L1/L2/Final'] == 'L4']),
-        'Pending Feedback': len([i for i in total_records if i['Status'] == 'Pending Feedback'])
-    }
+            'Total Submission': len(total_records),
+            'Level 1': len([i for i in total_records if i['L1/L2/Final'] == 'L1']),
+            'Level 2': len([i for i in total_records if i['L1/L2/Final'] == 'L2']),
+            'Level 3/Final Stage': len([i for i in total_records if i['L1/L2/Final'] == 'L3']),
+            'Level 4/Offered': len([i for i in total_records if i['L1/L2/Final'] == 'L4']),
+            'Pending Feedback': len([i for i in total_records if i['Status'] == 'Pending Feedback'])
+        }
 
-    if request.method == 'POST':
-        business_units = request.form.get('business_units')
-        result = [i for i in total_records if request.form.get('business_units') and i['BU'] == business_units]
+    if request.args.get('business_units'):
+        business_units = request.args.get('business_units')
+        total_records = [i for i in total_records if i['BU'] == business_units]
 
-        return render_template('main.html', result=get_final_records(result), form=form, date_form=date_form)
+    if request.args.get('from_date'):
+        from_date = request.args.get('from_date')
+        total_records = [i for i in total_records if i['Day'] and parse(i['Day'] >= parse(from_date))]
+
+    if request.args.get('to_date'):
+        to_date = request.args.get('to_date_date')
+        total_records = [i for i in total_records if i['Day'] and parse(i['Day'] <= parse(to_date))]
 
     return render_template(
         'main.html',
