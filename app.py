@@ -101,7 +101,7 @@ def beat():
         total_records = [i for i in total_records if i['Day'] and parse(i['Day']) >= parse(from_date)]
 
     if request.args.get('to_date'):
-        to_date = request.args.get('to_date_date')
+        to_date = request.args.get('to_date')
         total_records = [i for i in total_records if i['Day'] and parse(i['Day']) <= parse(to_date)]
 
     return render_template(
