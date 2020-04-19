@@ -25,6 +25,8 @@ def read_table(sheet, columnnames, header_row=0):
     column_indices = [name_to_index[n] for n in columnnames]
     for rowindex in range(header_row + 1, sheet.nrows):
         row = sheet.row(rowindex)
+        if len(set([i.value for i in row])) < 2:
+            break
         yield dict(zip(columnnames, (row[x].value for x in column_indices)))
 
 
@@ -32,30 +34,22 @@ def get_records():
     from datetime import datetime
 
     coloumns = [
-        'Day',
+        'Date of Submission',
         'BU',
-        'Skill',
-        'Candidate Name',
-        'Mobile Number',
-        'Drive',
-        'L1/L2/Final',
-        'Time',
-        'Panel',
-        'Status',
-        'Comments/Reasons',
-        'MR Links',
-        'Recruiter Name'
+        'Client Feedback'
     ]
 
     rows = read_table(
-        open_sheet("/cygdrive/c/File/Master-Tracker.xlsx", "Schedule Tracker"),
+        open_sheet("/cygdrive/c/File/Master-Tracker.xlsx", "Master Tracker"),
         coloumns,
         0
     )
+
     total_records = [row for row in rows]
+
     for record in total_records:
         try:
-            record['Day'] = datetime(*xlrd.xldate_as_tuple(record['Day'], datemode=0)).date().isoformat()
+            record['Date of Submission'] = datetime(*xlrd.xldate_as_tuple(record['Date of Submission'], datemode=0)).date().isoformat()
         except TypeError:
             continue
 
@@ -65,6 +59,7 @@ def get_records():
 @app.route('/beat', methods=['GET'])
 def beat():
     from flask import request
+
     total_records = get_records()
 
     class Form(FlaskForm):
@@ -83,14 +78,26 @@ def beat():
     date_form = DateForm()
 
     def get_final_records(total_records):
-        return {
-            'Total Submission': len(total_records),
-            'Level 1': len([i for i in total_records if i['L1/L2/Final'] == 'L1']),
-            'Level 2': len([i for i in total_records if i['L1/L2/Final'] == 'L2']),
-            'Level 3/Final Stage': len([i for i in total_records if i['L1/L2/Final'] == 'L3']),
-            'Level 4/Offered': len([i for i in total_records if i['L1/L2/Final'] == 'L4']),
-            'Pending Feedback': len([i for i in total_records if i['Status'] == 'Pending Feedback'])
+        fields = [
+            'L1 Stage',
+            'L2 Stage',
+            'L1 Reject',
+            'L2 Reject',
+            'Screen Reject',
+            'Final Select',
+            'Offered',
+            'Joined',
+            'HOLD/Closed',
+            'Pending Feedback'
+        ]
+        result = {
+            'Total Submission': len(total_records)
         }
+        _tmp = {
+            result.update({field: len([i for i in total_records if i['Client Feedback'] == field])})
+            for field in fields
+        }
+        return result
 
     if request.args.get('business_units'):
         business_units = request.args.get('business_units')
@@ -98,11 +105,11 @@ def beat():
 
     if request.args.get('from_date'):
         from_date = request.args.get('from_date')
-        total_records = [i for i in total_records if i['Day'] and parse(i['Day']) >= parse(from_date)]
+        total_records = [i for i in total_records if i['Date of Submission'] and parse(i['Date of Submission']) >= parse(from_date)]
 
     if request.args.get('to_date'):
         to_date = request.args.get('to_date')
-        total_records = [i for i in total_records if i['Day'] and parse(i['Day']) <= parse(to_date)]
+        total_records = [i for i in total_records if i['Date of Submission'] and parse(i['Date of Submission']) <= parse(to_date)]
 
     return render_template(
         'main.html',
