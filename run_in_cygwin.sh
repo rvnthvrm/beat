@@ -11,5 +11,5 @@ else
   git clone https://github.com/rvnthvrm/beat.git
 fi
 
-pip3.8 install -r requirments.txt &&
+pip3.8 install -r requirements.txt &&
 flask run &
