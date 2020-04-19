@@ -8,7 +8,7 @@ then
 else
   mkdir $DIR &&
   cd $DIR &&
-  git clone https://github.com/rvnthvrm/beat.git
+  git clone https://github.com/rvnthvrm/beat.git && cd beat
 fi
 
 pip3.8 install -r requirements.txt &&
