@@ -24,11 +24,18 @@
                 <input class="myButton" type="submit" value="search"/>
             </h3>
         </form>
-        {% for key, value in result.items() %}
-        <ul>
-            <li><h3>{{key}}: {{value}}</h3></li>
-        </ul>
-        {% endfor %}
+        <table class="table">
+            <tr>
+                <th>Status</th>
+                <th>Count</th>
+            </tr>
+            {% for key, value in result.items() %}
+            <tr>
+                <td>{{key}}</td>
+                <td>{{value}}</td>
+            </tr>
+            {% endfor %}
+        </table>
     </div>
     <div class="left-nav">
         <h2>{{form.business_units.label}}</h2>
